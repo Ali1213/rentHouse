@@ -1,0 +1,12 @@
+node_modules/
+*.log
+*.~
+*.bak
+configs/development
+.DS_Store
+.vscode
+package-lock.json
+
+push.sh
+
+db/
