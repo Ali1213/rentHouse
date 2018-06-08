@@ -1,0 +1,29 @@
+// import sqlite from 'sqlite';
+const sqlite = require('sqlite')
+
+const path = require('path')
+const fs = require('fs')
+
+const dbpath = path.join(__dirname,"../db",'database.sqlite');
+
+try{
+    fs.statSync(path.dirname(dbpath))
+}catch(e){
+    fs.mkdirSync(path.dirname(dbpath))
+}
+
+
+const initStr = fs.readFileSync(path.join(__dirname, 'db.sql'), 'utf8')
+
+let dbPromise
+async function init(){
+    try{
+        dbPromise = await sqlite.open(dbpath, { Promise })
+        await dbPromise.exec(initStr)
+    }catch(e){
+        console.log(e)
+    }
+    return dbPromise
+} 
+
+module.exports = init()
