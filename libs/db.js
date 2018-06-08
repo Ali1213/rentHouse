@@ -15,15 +15,12 @@ try{
 
 const initStr = fs.readFileSync(path.join(__dirname, 'db.sql'), 'utf8')
 
-let dbPromise
+// DB
 async function init(){
-    try{
-        dbPromise = await sqlite.open(dbpath, { Promise })
-        await dbPromise.exec(initStr)
-    }catch(e){
-        console.log(e)
-    }
-    return dbPromise
+    const db = await sqlite.open(dbpath, { Promise })
+    await db.exec(initStr)
+    return db
 } 
 
-module.exports = init()
+
+module.exports = init
