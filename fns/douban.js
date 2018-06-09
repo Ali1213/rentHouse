@@ -4,6 +4,7 @@ const {
     request,
     cheerio,
 } = require('../libs')
+let db
 
 async function getDoubanList(){
     const list = await db.all('select id,url from Url where type=?',"douban")
@@ -28,13 +29,19 @@ async function doubanRequest(url){
     return new Promise((rs,rj)=>{
         request({url: url,headers:{'User-Agent': 'request'}},function(e,r,body){
             if(!e && r.statusCode == 200) {
-                rs(body)
+                rs([body,null])
             } else {
-                rj(e || r.statusCode)
+                rj([null,e || r.statusCode])
             }
         })
     })
 }
+
+async function doubanRequestWrap(url){
+    await sleep(Math.floor(Math.random()*20))
+    return await doubanRequest(url)
+}
+
 
 function parseHtmlLevel2(body){
     let $ = cheerio.load(body);
@@ -96,17 +103,21 @@ async function insertMany(lists){
 }
 
 async function main(){
+    db = await require('../libs/db')()
     let urlInfos = await getDoubanList();
     for(let {id, url} of urlInfos){
         let pageUrls = await getDouBanPageUrl(url)
 
         for(let pageUrl of pageUrls){
-            let body = await doubanRequest(pageUrl)
+            let [body,err] = await doubanRequestWrap(pageUrl)
+            if(err) continue
             let lists = parseHtmlLevel1(body)
             lists = await filterLevel1List(lists)
             let newList = []
             for(let list of lists){
-                let body = await doubanRequest(list.url)
+                let [body,err] = await doubanRequestWrap(list.url)
+                if(err)continue;
+
                 const content = parseHtmlLevel2(body)
 
                 // console.log("====",content)

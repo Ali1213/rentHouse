@@ -7,7 +7,7 @@ const douban = require('../fns/douban')
 
 var CronJob = cron.CronJob;
 var job = new CronJob({
-    cronTime: '0 */2 * * * *',
+    cronTime: '0 */7 * * * *',
     onTick: function() {
       /*
        * Runs every weekday (Monday through Friday)
@@ -19,3 +19,4 @@ var job = new CronJob({
     start: false,
     timeZone: 'America/Los_Angeles'
   });
+  job.start()
