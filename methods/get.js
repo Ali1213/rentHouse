@@ -12,19 +12,19 @@ async function getRentHouseList(params){
 
 async function addRentUrl(params){
     let paramsStr = ""
-    let valus = ""
+    let values = ""
     if(params.url){
         paramsStr += "url,"
-        valus += params.url + ','
+        values += params.url + ','
     }
 
     if(params.name){
         paramsStr += "name,"
-        valus += params.name + ','
+        values += params.name + ','
     }
     if(params.type){
         paramsStr += "type,"
-        valus += params.type + ','
+        values += params.type + ','
     }
     const result = await db.run(`INSERT INTO Url(${paramsStr.slice(0,-1)}) VALUES(${values.slice(0,-1)})`)
     return result;
