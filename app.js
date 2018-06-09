@@ -12,6 +12,8 @@ var cors = require('koa-cors');
 const app = new Koa();
  
 app.use(cors());
+app.use(bodyParser());
+
 
 const { getRentHouseList,addRentUrl } = require('./methods');
 
@@ -19,7 +21,7 @@ async function main(){
     global.db = await dbInit()
 
     
-    router.all('/getAll',async (ctx) => {
+    router.get('/getAll',async (ctx) => {
         const params = mergeArgs(ctx);
         let result
         try {
@@ -31,8 +33,9 @@ async function main(){
         }
     })
 
-    router.all('/addUrl',async (ctx) => {
+    router.post('/addUrl',async (ctx) => {
         const params = mergeArgs(ctx);
+        console.log(params)
         let result
         try {
             result = await addRentUrl(params);
@@ -52,9 +55,8 @@ async function main(){
         );
     }
 
-    app.use(bodyParser());
 
-    app.use(require('./router').routes());
+    app.use(router.routes());
 
     app.listen(CONFIG.port, CONFIG.host, () => {
         console.log(`Listen to ${CONFIG.port} at ${new Date()}`);
