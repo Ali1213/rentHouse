@@ -15,16 +15,16 @@ async function addRentUrl(params){
     let values = ""
     if(params.url){
         paramsStr += "url,"
-        values += params.url + ','
+        values += `"${params.url}",`
     }
 
     if(params.name){
         paramsStr += "name,"
-        values += params.name + ','
+        values += `"${params.name}",`
     }
     if(params.type){
         paramsStr += "type,"
-        values += params.type + ','
+        values += `"${params.type}",`
     }
     const result = await db.run(`INSERT INTO Url(${paramsStr.slice(0,-1)}) VALUES(${values.slice(0,-1)})`)
     return result;
