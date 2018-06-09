@@ -2,8 +2,8 @@ const {
     db
 } = require('../libs')
 
-const getRentHouseList = require('./getRentHouseList');
+const methods = require('./get');
 
 module.exports = {
-    getRentHouseList,
+    ...methods,
 }

@@ -11,7 +11,7 @@ const Router = require('koa-router');
 
 const router = new Router();
 
-const { getRentHouseList } = require('./methods');
+const { getRentHouseList,addRentUrl } = require('./methods');
 
 async function main(){
     global.db = await dbInit()
@@ -22,6 +22,18 @@ async function main(){
         let result
         try {
             result = await getRentHouseList(params);
+            ctx.body = {code:0, data: result}
+        } catch (e) {
+            console.log(e)
+            ctx.body = {code:10040,Message: e.Message};
+        }
+    })
+
+    router.get('/addUrl',async (ctx) => {
+        const params = mergeArgs(ctx);
+        let result
+        try {
+            result = await addRentUrl(params);
             ctx.body = {code:0, data: result}
         } catch (e) {
             console.log(e)
