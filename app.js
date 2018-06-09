@@ -2,14 +2,16 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const CONFIG = require('./config');
 
-const app = new Koa();
 const dbInit = require('./libs/db')
-
-
 
 const Router = require('koa-router');
 
 const router = new Router();
+
+var cors = require('koa-cors');
+const app = new Koa();
+ 
+app.use(cors());
 
 const { getRentHouseList,addRentUrl } = require('./methods');
 
