@@ -19,7 +19,7 @@ async function main(){
     global.db = await dbInit()
 
     
-    router.get('/getAll',async (ctx) => {
+    router.all('/getAll',async (ctx) => {
         const params = mergeArgs(ctx);
         let result
         try {
@@ -31,7 +31,7 @@ async function main(){
         }
     })
 
-    router.get('/addUrl',async (ctx) => {
+    router.all('/addUrl',async (ctx) => {
         const params = mergeArgs(ctx);
         let result
         try {
