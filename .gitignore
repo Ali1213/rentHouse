@@ -8,5 +8,3 @@ configs/development
 package-lock.json
 
 push.sh
-
-db/
